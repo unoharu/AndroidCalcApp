@@ -2,6 +2,9 @@
 ## 概要
 基本的な電卓アプリ
 
+<img width="400" alt="thumbnail" src="https://github.com/user-attachments/assets/d2a89be1-1767-49c6-a47e-ff786bbd339d">
+
+
 ### 操作動画
 https://youtu.be/rEmaZuDJuAU
 
