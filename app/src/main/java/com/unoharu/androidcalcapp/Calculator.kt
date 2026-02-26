@@ -31,12 +31,15 @@ enum class ErrorType {
     DIVIDE_BY_ZERO,
 }
 
+data class HistoryItem(val expression: String, val result: String)
+
 class Calculator {
 
     companion object {
         const val MAX_DIGITS = 9
         private const val MAX_DECIMAL_PLACES = 8
         private const val SCIENTIFIC_THRESHOLD = 1_000_000_000.0
+        private const val MAX_HISTORY_SIZE = 20
     }
 
     private val decimalFormat = (NumberFormat.getInstance(Locale.US) as DecimalFormat).apply {
@@ -46,6 +49,9 @@ class Calculator {
 
     var state = CalculatorState()
         private set
+
+    private val _history = mutableListOf<HistoryItem>()
+    val history: List<HistoryItem> get() = _history.toList()
 
     val displayText: String
         get() = formatForDisplay()
@@ -80,6 +86,13 @@ class Calculator {
 
     fun inputOperator(symbol: String) {
         val op = Operator.fromSymbol(symbol) ?: return
+
+        // Chained calculation: if a pending operation exists, evaluate it first
+        if (state.operand1 != null && state.operator != null && state.currentInput.isNotEmpty()) {
+            val result = calculate() ?: return
+            if (result is CalculationResult.Error) return
+        }
+
         val parsed = state.currentInput.replace(",", "").toDoubleOrNull() ?: return
 
         state = state.copy(
@@ -110,8 +123,18 @@ class Calculator {
 
         when (result) {
             is CalculationResult.Success -> {
+                val formattedResult = formatNumber(result.value)
+                _history.add(
+                    HistoryItem(
+                        expression = "${formatNumber(op1)} ${op.symbol} ${formatNumber(op2)}",
+                        result = formattedResult,
+                    )
+                )
+                if (_history.size > MAX_HISTORY_SIZE) {
+                    _history.removeFirst()
+                }
                 state = state.copy(
-                    currentInput = formatNumber(result.value),
+                    currentInput = formattedResult,
                     operand1 = null,
                     operator = null,
                     isResultDisplayed = true,
@@ -127,6 +150,14 @@ class Calculator {
 
     fun clear() {
         state = CalculatorState()
+        _history.clear()
+    }
+
+    fun setInput(value: String) {
+        state = state.copy(
+            currentInput = value,
+            isResultDisplayed = true,
+        )
     }
 
     fun toggleSign() {

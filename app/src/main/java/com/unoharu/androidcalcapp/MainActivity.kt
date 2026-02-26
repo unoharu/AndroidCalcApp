@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.unoharu.androidcalcapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: CalculatorViewModel by viewModels()
+    private lateinit var historyAdapter: HistoryAdapter
     private var startX = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupHistoryList()
         observeUiState()
         setupNumberButtons()
         setupOperatorButtons()
@@ -33,11 +36,28 @@ class MainActivity : AppCompatActivity() {
         setupSwipeGesture()
     }
 
+    private fun setupHistoryList() {
+        historyAdapter = HistoryAdapter { item ->
+            viewModel.onHistoryItemClick(item)
+        }
+        binding.historyList.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = historyAdapter
+        }
+    }
+
     private fun observeUiState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     binding.display.text = state.displayText
+
+                    historyAdapter.submitList(state.history) {
+                        // Auto-scroll to the latest history item
+                        if (state.history.isNotEmpty()) {
+                            binding.historyList.scrollToPosition(state.history.size - 1)
+                        }
+                    }
 
                     state.errorMessage?.let { errorKey ->
                         val message = when (errorKey) {
@@ -79,6 +99,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonAC.setOnClickListener { viewModel.onClearClick() }
         binding.buttonPlusMinus.setOnClickListener { viewModel.onToggleSignClick() }
         binding.buttonPercent.setOnClickListener { viewModel.onPercentClick() }
+        binding.buttonDelete.setOnClickListener { viewModel.onBackspaceClick() }
     }
 
     @Suppress("ClickableViewAccessibility")

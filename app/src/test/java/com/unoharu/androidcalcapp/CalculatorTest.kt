@@ -261,4 +261,133 @@ class CalculatorTest {
         assertTrue(result is CalculationResult.Success)
         assertEquals("3.8", calculator.displayText)
     }
+
+    // --- Chained calculation ---
+
+    @Test
+    fun chainedAddition() {
+        // 3 + 5 + 2 = should produce 10
+        calculator.inputDigit("3")
+        calculator.inputOperator("+")
+        calculator.inputDigit("5")
+        calculator.inputOperator("+") // triggers 3+5=8 internally
+        calculator.inputDigit("2")
+        val result = calculator.calculate()
+        assertTrue(result is CalculationResult.Success)
+        assertEquals("10", calculator.displayText)
+    }
+
+    @Test
+    fun chainedMixedOperators() {
+        // 10 - 3 × 2 = should produce 14 (left-to-right evaluation)
+        calculator.inputDigit("1")
+        calculator.inputDigit("0")
+        calculator.inputOperator("-")
+        calculator.inputDigit("3")
+        calculator.inputOperator("×") // triggers 10-3=7 internally
+        calculator.inputDigit("2")
+        val result = calculator.calculate()
+        assertTrue(result is CalculationResult.Success)
+        assertEquals("14", calculator.displayText)
+    }
+
+    @Test
+    fun chainedThreeOperators() {
+        // 1 + 2 + 3 + 4 = should produce 10
+        calculator.inputDigit("1")
+        calculator.inputOperator("+")
+        calculator.inputDigit("2")
+        calculator.inputOperator("+") // 1+2=3
+        calculator.inputDigit("3")
+        calculator.inputOperator("+") // 3+3=6
+        calculator.inputDigit("4")
+        val result = calculator.calculate()
+        assertTrue(result is CalculationResult.Success)
+        assertEquals("10", calculator.displayText)
+    }
+
+    // --- History ---
+
+    @Test
+    fun historyAddedAfterCalculation() {
+        calculator.inputDigit("3")
+        calculator.inputOperator("+")
+        calculator.inputDigit("5")
+        calculator.calculate()
+
+        assertEquals(1, calculator.history.size)
+        assertEquals("3 + 5", calculator.history[0].expression)
+        assertEquals("8", calculator.history[0].result)
+    }
+
+    @Test
+    fun historyAddedForChainedCalculation() {
+        // 3 + 5 + 2 = produces two history entries (intermediate + final)
+        calculator.inputDigit("3")
+        calculator.inputOperator("+")
+        calculator.inputDigit("5")
+        calculator.inputOperator("+") // intermediate: 3+5=8
+        calculator.inputDigit("2")
+        calculator.calculate() // final: 8+2=10
+
+        assertEquals(2, calculator.history.size)
+        assertEquals("3 + 5", calculator.history[0].expression)
+        assertEquals("8", calculator.history[0].result)
+        assertEquals("8 + 2", calculator.history[1].expression)
+        assertEquals("10", calculator.history[1].result)
+    }
+
+    @Test
+    fun historyMaxSize() {
+        // Exceed max history size (20) and verify oldest entries are removed
+        repeat(25) { i ->
+            calculator.inputDigit("${i % 10}")
+            calculator.inputOperator("+")
+            calculator.inputDigit("1")
+            calculator.calculate()
+        }
+
+        assertEquals(20, calculator.history.size)
+    }
+
+    @Test
+    fun historyClearedOnClear() {
+        calculator.inputDigit("3")
+        calculator.inputOperator("+")
+        calculator.inputDigit("5")
+        calculator.calculate()
+        assertEquals(1, calculator.history.size)
+
+        calculator.clear()
+        assertEquals(0, calculator.history.size)
+    }
+
+    @Test
+    fun historyNotAddedOnError() {
+        calculator.inputDigit("5")
+        calculator.inputOperator("÷")
+        calculator.inputDigit("0")
+        calculator.calculate()
+
+        assertEquals(0, calculator.history.size)
+    }
+
+    // --- setInput ---
+
+    @Test
+    fun setInputSetsCurrentInput() {
+        calculator.setInput("42")
+        assertEquals("42", calculator.displayText)
+        assertTrue(calculator.state.isResultDisplayed)
+    }
+
+    @Test
+    fun setInputAllowsNewCalculation() {
+        calculator.setInput("42")
+        calculator.inputOperator("+")
+        calculator.inputDigit("8")
+        val result = calculator.calculate()
+        assertTrue(result is CalculationResult.Success)
+        assertEquals("50", calculator.displayText)
+    }
 }

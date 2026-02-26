@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 data class CalculatorUiState(
     val displayText: String = "0",
     val errorMessage: String? = null,
+    val history: List<HistoryItem> = emptyList(),
 )
 
 class CalculatorViewModel : ViewModel() {
@@ -41,6 +42,7 @@ class CalculatorViewModel : ViewModel() {
                 _uiState.value = CalculatorUiState(
                     displayText = calculator.displayText,
                     errorMessage = message,
+                    history = calculator.history,
                 )
             }
             is CalculationResult.Success -> updateUiState()
@@ -68,11 +70,19 @@ class CalculatorViewModel : ViewModel() {
         updateUiState()
     }
 
+    fun onHistoryItemClick(item: HistoryItem) {
+        calculator.setInput(item.result)
+        updateUiState()
+    }
+
     fun onErrorDismissed() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
 
     private fun updateUiState() {
-        _uiState.value = CalculatorUiState(displayText = calculator.displayText)
+        _uiState.value = CalculatorUiState(
+            displayText = calculator.displayText,
+            history = calculator.history,
+        )
     }
 }

@@ -1,23 +1,81 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.CalcApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
         <item name="buttonStyle">@style/buttonStyle</item>
     </style>
 
     <!-- Custom theme using the base theme -->
-    <style name="Theme.CalcApp" parent="Base.Theme.CalcApp">
+    <style name="Theme.CalcApp" parent="Base.Theme.CalcApp" />
 
-    </style>
-
-    <!-- Button Style -->
+    <!-- Base button style (shared properties) -->
     <style name="buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
         <item name="android:layout_margin">4dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/press_start_2p</item>
         <item name="android:layout_columnWeight">1</item>
         <item name="android:layout_rowWeight">1</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="elevation">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <!-- Number buttons (0-9, .) -->
+    <style name="buttonStyleNumber" parent="buttonStyle">
+        <item name="android:background">@drawable/btn_number_selector</item>
+        <item name="android:textColor">@color/btn_number_text</item>
+    </style>
+
+    <!-- Operator buttons (+, -, ×, ÷) -->
+    <style name="buttonStyleOperator" parent="buttonStyle">
+        <item name="android:background">@drawable/btn_operator_selector</item>
+        <item name="android:textColor">@color/btn_operator_text</item>
+    </style>
+
+    <!-- Function buttons (AC, +/-, %) -->
+    <style name="buttonStyleFunction" parent="buttonStyle">
+        <item name="android:background">@drawable/btn_function_selector</item>
+        <item name="android:textColor">@color/btn_function_text</item>
+    </style>
+
+    <!-- Equals button -->
+    <style name="buttonStyleEquals" parent="buttonStyle">
+        <item name="android:background">@drawable/btn_equals_selector</item>
+        <item name="android:textColor">@color/btn_equals_text</item>
+    </style>
+
+    <!-- Display container style (background + padding) -->
+    <style name="displayContainerStyle">
+        <item name="android:background">@drawable/display_background</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- Display text style (font, color, autoSize) -->
+    <style name="displayStyle">
+        <item name="android:textColor">@color/display_text</item>
+        <item name="android:fontFamily">@font/press_start_2p</item>
+        <item name="android:gravity">bottom|end</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">12sp</item>
+        <item name="autoSizeMaxTextSize">24sp</item>
+    </style>
+
+    <!-- History item text style -->
+    <style name="historyItemStyle">
+        <item name="android:textColor">@color/display_text</item>
+        <item name="android:fontFamily">@font/press_start_2p</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">end</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
     </style>
 
 </resources>

@@ -1,3 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Background -->
+    <color name="background">#1A1A2E</color>
+
+    <!-- Display -->
+    <color name="display_background">#9BBC0F</color>
+    <color name="display_text">#0F380F</color>
+    <color name="display_border">#0F380F</color>
+
+    <!-- Number buttons (0-9, .) -->
+    <color name="btn_number">#2D2D5E</color>
+    <color name="btn_number_pressed">#1A1A40</color>
+    <color name="btn_number_text">#E0E0E0</color>
+
+    <!-- Operator buttons (+, -, ×, ÷) -->
+    <color name="btn_operator">#E63946</color>
+    <color name="btn_operator_pressed">#A31621</color>
+    <color name="btn_operator_text">#FFFFFF</color>
+
+    <!-- Function buttons (AC, +/-, %) -->
+    <color name="btn_function">#457B9D</color>
+    <color name="btn_function_pressed">#2A5A78</color>
+    <color name="btn_function_text">#F1FAEE</color>
+
+    <!-- Equals button -->
+    <color name="btn_equals">#F4A261</color>
+    <color name="btn_equals_pressed">#D4823E</color>
+    <color name="btn_equals_text">#1A1A2E</color>
 </resources>

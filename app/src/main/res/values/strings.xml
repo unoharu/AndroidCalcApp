@@ -20,6 +20,8 @@
     <string name="button_8">8</string>
     <string name="button_9">9</string>
 
+    <string name="button_delete">DEL</string>
+
     <!-- Error messages (if needed) -->
     <string name="error_invalid_input">Invalid input</string>
     <string name="error_divide_by_zero">Cannot divide by zero</string>

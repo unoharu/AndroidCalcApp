@@ -31,16 +31,28 @@
 - [x] `findViewById` 残存なし確認
 - [x] Qiita.md に Phase 2 の変更を追記
 
-## Phase 3: デザイン改善
+## Phase 3: レトロゲーム風デザイン刷新
 
-- [ ] ターゲットペルソナに基づいたレトロゲーム風UI設計
-- [ ] ボタンの色分け（数字 / 演算子 / 機能）
-- [ ] ダークテーマ対応
-- [ ] ボタン形状・サイズの最適化
+- [x] Press Start 2P フォント配置（`res/font/press_start_2p.ttf`）
+- [x] カラーパレット定義: ライトテーマ16色（`values/colors.xml`）
+- [x] カラーパレット定義: ダークテーマ16色（`values-night/colors.xml`）
+- [x] Drawable作成: ディスプレイ背景（`display_background.xml`）
+- [x] Drawable作成: ボタン4種 × 3ファイル（normal, pressed, selector）= 12ファイル
+- [x] テーマ更新: windowBackground, statusBarColor, navigationBarColor 設定
+- [x] スタイル追加: buttonStyleNumber, buttonStyleOperator, buttonStyleFunction, buttonStyleEquals
+- [x] スタイル追加: displayStyle（autoSizeText, ピクセルフォント）
+- [x] ダークテーマ: `values-night/themes.xml` にテーマ属性Override
+- [x] レイアウト更新: ボタンに種別スタイル割当、高さ0dp化、padding/margin調整
+- [x] `./gradlew assembleDebug` ビルド成功
+- [x] `./gradlew test` 全テストパス（ロジック変更なし）
+- [x] Qiita.md に Phase 3 の変更を追記
 
 ## Phase 4: 機能追加
 
-- [ ] 連続計算サポート
-- [ ] 計算履歴
-- [ ] バックスペースボタン
-- [ ] 画面回転時の状態保持
+- [x] 連続計算サポート（`inputOperator()` で中間計算を実行）
+- [x] 計算履歴（`HistoryItem` + RecyclerView、最大20件、ディスプレイ上部に表示）
+- [x] バックスペースボタン（DEL ボタン、GridLayout Row 5 に4列スパンで配置）
+- [x] 画面回転時の状態保持（Phase 2 の ViewModel 導入で既に対応済み）
+- [x] ユニットテスト追加（連続計算、履歴、setInput — 計31テストケース）
+- [x] `./gradlew assembleDebug` ビルド成功
+- [x] `./gradlew test` 全テストパス
