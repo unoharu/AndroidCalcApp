@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ih13a213_unoharu.kadai06_th_ih13a213_04"
+    namespace = "com.unoharu.androidcalcapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ih13a213_unoharu.kadai06_th_ih13a213_04"
+        applicationId = "com.unoharu.androidcalcapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

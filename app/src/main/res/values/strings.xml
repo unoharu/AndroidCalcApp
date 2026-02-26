@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kadai06_th_IH13A213_04</string>
+    <string name="app_name">CalcApp</string>
     <string name="button_ac">AC</string>
     <string name="button_plus_minus">+/-</string>
     <string name="button_percent">%</string>

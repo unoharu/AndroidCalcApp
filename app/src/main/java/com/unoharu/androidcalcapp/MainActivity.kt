@@ -1,7 +1,6 @@
-package com.ih13a213_unoharu.kadai06_th_ih13a213_04
+package com.unoharu.androidcalcapp
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +11,11 @@ import android.view.MotionEvent
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        private const val MAX_DIGITS = 9
+        private const val MAX_DECIMAL_PLACES = 8
+    }
+
     private lateinit var display: TextView
     private var input = "0"
     private var operand1: Double? = null
@@ -19,8 +23,6 @@ class MainActivity : AppCompatActivity() {
     private var isResultDisplayed = false
     private val decimalFormat = NumberFormat.getInstance(Locale.US) as DecimalFormat
     private val scientificFormat = DecimalFormat("0.###E0")
-    private val maxDigits = 9
-    private val maxDecimalPlaces = 8
     private var startX = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +64,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.buttonEquals).setOnClickListener {
             if (input.isNotEmpty() && operand1 != null && operator != null) {
                 val operand2 = input.replace(",", "").toDoubleOrNull()
-                Log.d("Calculator", "operand1: $operand1, operand2: $operand2, operator: $operator")
                 if (operand2 != null) {
                     val result = when (operator) {
                         "+" -> operand1!! + operand2
@@ -72,7 +73,6 @@ class MainActivity : AppCompatActivity() {
                         else -> null
                     }
 
-                    Log.d("Calculator", "operand1: $operand1, operand2: $operand2, operator: $operator, result: $result")
                     result?.let {
                         input = formatNumber(it)
                         isResultDisplayed = true
@@ -111,7 +111,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // スワイプ検知
         display.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -120,9 +119,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP -> {
                     val endX = event.x
-                    if (startX > endX) { // 左にスライド
+                    if (startX > endX) {
                         removeLastDigit()
-                    } else if (startX < endX) { // 右にスライド
+                    } else if (startX < endX) {
                         removeLastDigit()
                     }
                     true
@@ -145,7 +144,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleInput(buttonText: String) {
         if (buttonText == ".") {
-            // "input" が "0" または空の場合は "0." を表示
             if (input == "0" || input.isEmpty()) {
                 input = "0."
             } else if (!input.contains(".")) {
@@ -158,8 +156,7 @@ class MainActivity : AppCompatActivity() {
 
             val totalLength = integerPart.length + decimalPart.length
 
-            // 最大桁数のチェック
-            if (totalLength < maxDigits || (parts.size > 1 && decimalPart.length < maxDecimalPlaces)) {
+            if (totalLength < MAX_DIGITS || (parts.size > 1 && decimalPart.length < MAX_DECIMAL_PLACES)) {
                 if (input == "0" && buttonText != ".") {
                     input = buttonText
                 } else {
@@ -170,13 +167,11 @@ class MainActivity : AppCompatActivity() {
         updateDisplay()
     }
 
-
-
     private fun formatNumber(value: Double): String {
         return if (value >= 1000000000 || value <= -1000000000) {
             scientificFormat.format(value)
         } else {
-            decimalFormat.maximumFractionDigits = maxDecimalPlaces
+            decimalFormat.maximumFractionDigits = MAX_DECIMAL_PLACES
             decimalFormat.format(value)
         }
     }
@@ -187,12 +182,10 @@ class MainActivity : AppCompatActivity() {
             operator = operatorText
             input = ""
             isResultDisplayed = false
-            Log.d("Calculator", "Operator button clicked: operator: $operator")
         }
     }
 
     private fun updateDisplay() {
-        // "0."の場合を特別に扱い、そのまま表示する
         if (input == "0.") {
             display.text = input
         } else {
