@@ -1,13 +1,13 @@
 package com.unoharu.androidcalcapp
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.unoharu.androidcalcapp.databinding.ActivityMainBinding
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
-import android.view.MotionEvent
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         private const val MAX_DECIMAL_PLACES = 8
     }
 
-    private lateinit var display: TextView
+    private lateinit var binding: ActivityMainBinding
     private var input = "0"
     private var operand1: Double? = null
     private var operator: String? = null
@@ -27,41 +27,38 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        display = findViewById(R.id.display)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         updateDisplay()
 
         val numberButtons = listOf(
-            R.id.button0, R.id.button1, R.id.button2, R.id.button3,
-            R.id.button4, R.id.button5, R.id.button6, R.id.button7,
-            R.id.button8, R.id.button9, R.id.buttonDot
+            binding.button0, binding.button1, binding.button2, binding.button3,
+            binding.button4, binding.button5, binding.button6, binding.button7,
+            binding.button8, binding.button9, binding.buttonDot
         )
 
-        numberButtons.forEach { id ->
-            findViewById<Button>(id).setOnClickListener {
+        numberButtons.forEach { button ->
+            button.setOnClickListener {
                 if (isResultDisplayed) {
                     input = "0"
                     isResultDisplayed = false
                 }
-                val button = it as Button
-                handleInput(button.text.toString())
+                handleInput((it as Button).text.toString())
             }
         }
 
         val operatorButtons = listOf(
-            R.id.buttonPlus, R.id.buttonMinus, R.id.buttonMultiply, R.id.buttonDivide
+            binding.buttonPlus, binding.buttonMinus, binding.buttonMultiply, binding.buttonDivide
         )
 
-        operatorButtons.forEach { id ->
-            findViewById<Button>(id).setOnClickListener {
-                val button = it as Button
-                onOperatorButtonClick(button.text.toString())
+        operatorButtons.forEach { button ->
+            button.setOnClickListener {
+                onOperatorButtonClick((it as Button).text.toString())
             }
         }
 
-        findViewById<Button>(R.id.buttonEquals).setOnClickListener {
+        binding.buttonEquals.setOnClickListener {
             if (input.isNotEmpty() && operand1 != null && operator != null) {
                 val operand2 = input.replace(",", "").toDoubleOrNull()
                 if (operand2 != null) {
@@ -82,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.buttonAC).setOnClickListener {
+        binding.buttonAC.setOnClickListener {
             input = "0"
             operand1 = null
             operator = null
@@ -90,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             updateDisplay()
         }
 
-        findViewById<Button>(R.id.buttonPlusMinus).setOnClickListener {
+        binding.buttonPlusMinus.setOnClickListener {
             if (input.isNotEmpty()) {
                 input = if (input.startsWith("-")) {
                     input.substring(1)
@@ -101,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.buttonPercent).setOnClickListener {
+        binding.buttonPercent.setOnClickListener {
             if (input.isNotEmpty()) {
                 val value = input.replace(",", "").toDoubleOrNull()
                 if (value != null) {
@@ -111,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        display.setOnTouchListener { _, event ->
+        binding.display.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     startX = event.x
@@ -187,10 +184,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateDisplay() {
         if (input == "0.") {
-            display.text = input
+            binding.display.text = input
         } else {
             val displayValue = if (isResultDisplayed) input else formatNumber(input.toDoubleOrNull() ?: 0.0)
-            display.text = displayValue
+            binding.display.text = displayValue
         }
     }
 }
