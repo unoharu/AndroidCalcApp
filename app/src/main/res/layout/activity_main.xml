@@ -35,8 +35,8 @@
         android:layout_weight="2"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:rowCount="6"
         android:columnCount="4">
 
@@ -46,6 +46,7 @@
             style="@style/buttonStyleFunction"
             android:layout_row="0"
             android:layout_column="0"
+            android:contentDescription="@string/desc_all_clear"
             android:text="@string/button_ac" />
 
         <Button
@@ -53,6 +54,7 @@
             style="@style/buttonStyleFunction"
             android:layout_row="0"
             android:layout_column="1"
+            android:contentDescription="@string/desc_toggle_sign"
             android:text="@string/button_plus_minus" />
 
         <Button
@@ -60,6 +62,7 @@
             style="@style/buttonStyleFunction"
             android:layout_row="0"
             android:layout_column="2"
+            android:contentDescription="@string/desc_percent"
             android:text="@string/button_percent" />
 
         <Button
@@ -67,6 +70,7 @@
             style="@style/buttonStyleOperator"
             android:layout_row="0"
             android:layout_column="3"
+            android:contentDescription="@string/desc_divide"
             android:text="@string/button_divide" />
 
         <!-- Row 1: 7 8 9 × -->
@@ -96,6 +100,7 @@
             style="@style/buttonStyleOperator"
             android:layout_row="1"
             android:layout_column="3"
+            android:contentDescription="@string/desc_multiply"
             android:text="@string/button_multiply" />
 
         <!-- Row 2: 4 5 6 - -->
@@ -125,6 +130,7 @@
             style="@style/buttonStyleOperator"
             android:layout_row="2"
             android:layout_column="3"
+            android:contentDescription="@string/desc_subtract"
             android:text="@string/button_minus" />
 
         <!-- Row 3: 1 2 3 + -->
@@ -154,6 +160,7 @@
             style="@style/buttonStyleOperator"
             android:layout_row="3"
             android:layout_column="3"
+            android:contentDescription="@string/desc_add"
             android:text="@string/button_plus" />
 
         <!-- Row 4: 0 (2-col span) . = -->
@@ -170,6 +177,7 @@
             style="@style/buttonStyleNumber"
             android:layout_row="4"
             android:layout_column="2"
+            android:contentDescription="@string/desc_decimal"
             android:text="@string/button_dot" />
 
         <Button
@@ -177,6 +185,7 @@
             style="@style/buttonStyleEquals"
             android:layout_row="4"
             android:layout_column="3"
+            android:contentDescription="@string/desc_equals"
             android:text="@string/button_equals" />
 
         <!-- Row 5: DEL (4-col span) -->
@@ -186,6 +195,7 @@
             android:layout_row="5"
             android:layout_column="0"
             android:layout_columnSpan="4"
+            android:contentDescription="@string/desc_delete"
             android:text="@string/button_delete" />
 
     </GridLayout>

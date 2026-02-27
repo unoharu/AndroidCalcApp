@@ -31,7 +31,7 @@ enum class ErrorType {
     DIVIDE_BY_ZERO,
 }
 
-data class HistoryItem(val expression: String, val result: String)
+data class HistoryItem(val id: Int, val expression: String, val result: String)
 
 class Calculator {
 
@@ -52,6 +52,7 @@ class Calculator {
 
     private val _history = mutableListOf<HistoryItem>()
     val history: List<HistoryItem> get() = _history.toList()
+    private var nextHistoryId = 0
 
     val displayText: String
         get() = formatForDisplay()
@@ -126,6 +127,7 @@ class Calculator {
                 val formattedResult = formatNumber(result.value)
                 _history.add(
                     HistoryItem(
+                        id = nextHistoryId++,
                         expression = "${formatNumber(op1)} ${op.symbol} ${formatNumber(op2)}",
                         result = formattedResult,
                     )
@@ -154,8 +156,11 @@ class Calculator {
     }
 
     fun setInput(value: String) {
+        // Sanitize formatted strings (commas, scientific notation) to raw numeric form
+        val sanitized = value.replace(",", "")
+        val numeric = sanitized.toDoubleOrNull() ?: return
         state = state.copy(
-            currentInput = value,
+            currentInput = formatNumber(numeric),
             isResultDisplayed = true,
         )
     }
@@ -199,14 +204,15 @@ class Calculator {
 
     private fun formatForDisplay(): String {
         val input = state.currentInput
-        if (input == "0.") return input
+        if (state.isResultDisplayed) return input
         if (input.endsWith(".")) return input
 
-        return if (state.isResultDisplayed) {
-            input
-        } else {
-            formatNumber(input.toDoubleOrNull() ?: 0.0)
+        // Preserve trailing zeros in decimal part during input (e.g., "0.0", "0.00", "1.50")
+        if (input.contains(".") && input.substringAfter(".").endsWith("0")) {
+            return input
         }
+
+        return formatNumber(input.toDoubleOrNull() ?: 0.0)
     }
 
     private fun appendDigit(currentInput: String, digit: String): String {

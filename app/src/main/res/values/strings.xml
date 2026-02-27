@@ -22,6 +22,18 @@
 
     <string name="button_delete">DEL</string>
 
+    <!-- Accessibility: contentDescription for symbol buttons -->
+    <string name="desc_all_clear">All clear</string>
+    <string name="desc_toggle_sign">Toggle sign</string>
+    <string name="desc_percent">Percent</string>
+    <string name="desc_divide">Divide</string>
+    <string name="desc_multiply">Multiply</string>
+    <string name="desc_subtract">Subtract</string>
+    <string name="desc_add">Add</string>
+    <string name="desc_equals">Equals</string>
+    <string name="desc_decimal">Decimal point</string>
+    <string name="desc_delete">Delete</string>
+
     <!-- Error messages (if needed) -->
     <string name="error_invalid_input">Invalid input</string>
     <string name="error_divide_by_zero">Cannot divide by zero</string>

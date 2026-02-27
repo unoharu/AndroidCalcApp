@@ -390,4 +390,70 @@ class CalculatorTest {
         assertTrue(result is CalculationResult.Success)
         assertEquals("50", calculator.displayText)
     }
+
+    // --- Trailing zeros in decimal display ---
+
+    @Test
+    fun displayTrailingZerosInDecimal() {
+        calculator.inputDecimal()
+        calculator.inputDigit("0")
+        assertEquals("0.0", calculator.displayText)
+    }
+
+    @Test
+    fun displayMultipleTrailingZeros() {
+        calculator.inputDecimal()
+        calculator.inputDigit("0")
+        calculator.inputDigit("0")
+        assertEquals("0.00", calculator.displayText)
+    }
+
+    @Test
+    fun displayTrailingZeroAfterNonZero() {
+        calculator.inputDigit("1")
+        calculator.inputDecimal()
+        calculator.inputDigit("5")
+        calculator.inputDigit("0")
+        assertEquals("1.50", calculator.displayText)
+    }
+
+    // --- Large numbers and scientific notation ---
+
+    @Test
+    fun largeNumberUsesScientificNotation() {
+        // 500,000 × 500,000 = 250,000,000,000 (>= 1e9 threshold)
+        calculator.inputDigit("5")
+        repeat(5) { calculator.inputDigit("0") }
+        calculator.inputOperator("×")
+        calculator.inputDigit("5")
+        repeat(5) { calculator.inputDigit("0") }
+        val result = calculator.calculate()
+        assertTrue(result is CalculationResult.Success)
+        assertEquals("2.5E11", calculator.displayText)
+    }
+
+    @Test
+    fun scientificNotationResultUsableViaSetInput() {
+        // Simulate tapping a scientific notation history result
+        calculator.setInput("2.5E11")
+        calculator.inputOperator("+")
+        calculator.inputDigit("1")
+        val result = calculator.calculate()
+        assertTrue(result is CalculationResult.Success)
+        assertEquals("2.5E11", calculator.displayText)
+    }
+
+    // --- Backspace on formatted number ---
+
+    @Test
+    fun backspaceOnFormattedMultiDigitNumber() {
+        // Input 1234 (displays as "1,234"), backspace should produce "123"
+        calculator.inputDigit("1")
+        calculator.inputDigit("2")
+        calculator.inputDigit("3")
+        calculator.inputDigit("4")
+        assertEquals("1,234", calculator.displayText)
+        calculator.backspace()
+        assertEquals("123", calculator.displayText)
+    }
 }
