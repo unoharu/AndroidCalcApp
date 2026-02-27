@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kadai06_th_IH13A213_04</string>
+    <string name="app_name">CalcApp</string>
     <string name="button_ac">AC</string>
     <string name="button_plus_minus">+/-</string>
     <string name="button_percent">%</string>
@@ -19,6 +19,20 @@
     <string name="button_7">7</string>
     <string name="button_8">8</string>
     <string name="button_9">9</string>
+
+    <string name="button_delete">DEL</string>
+
+    <!-- Accessibility: contentDescription for symbol buttons -->
+    <string name="desc_all_clear">All clear</string>
+    <string name="desc_toggle_sign">Toggle sign</string>
+    <string name="desc_percent">Percent</string>
+    <string name="desc_divide">Divide</string>
+    <string name="desc_multiply">Multiply</string>
+    <string name="desc_subtract">Subtract</string>
+    <string name="desc_add">Add</string>
+    <string name="desc_equals">Equals</string>
+    <string name="desc_decimal">Decimal point</string>
+    <string name="desc_delete">Delete</string>
 
     <!-- Error messages (if needed) -->
     <string name="error_invalid_input">Invalid input</string>

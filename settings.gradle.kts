@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "kadai06_th_IH13A213_04"
+rootProject.name = "AndroidCalcApp"
 include(":app")
  
