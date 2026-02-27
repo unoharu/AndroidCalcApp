@@ -2,8 +2,7 @@
 
 > Kotlin + Material Design 3 で作る、Press Start 2P フォントのピクセルデザイン計算機。
 
-<!-- スクリーンショット（後で差し替え） -->
-<!-- <img width="xxx" height="xxx" alt="CalcApp" src="スクリーンショットURLをここに" /> -->
+<img width="540" height="1200" alt="light-theme" src="https://github.com/user-attachments/assets/93290fab-d43a-4c59-83e5-58bdf8f484f2" />
 
 ---
 
@@ -78,5 +77,5 @@ cd AndroidCalcApp
 
 ## 実行デモ
 
-<!-- デモ画像（後で差し替え） -->
-<!-- ![CalcApp Demo](デモ画像URLをここに) -->
+<img width="540" height="1200" alt=" play" src="https://github.com/user-attachments/assets/ae9b2674-5953-4686-a115-c7654ab94a4b" />
+
